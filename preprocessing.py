@@ -1,14 +1,16 @@
+# Chứa các hàm hướng dẫn Yolo xử lý dữ liệu
 import copy
-import os
-import xml.etree.ElementTree as ET
-
 import cv2
 import numpy as np
+import os
+import xml.etree.ElementTree as ET
 from imgaug import augmenters as iaa
 from keras.utils import Sequence
+
 from utils import BoundBox, bbox_iou
 
 
+# Phân tích các dữ liệu
 def parse_annotation(ann_dir, img_dir, labels=[]):
     all_imgs = []
     seen_labels = {}
@@ -59,6 +61,7 @@ def parse_annotation(ann_dir, img_dir, labels=[]):
     return all_imgs, seen_labels
 
 
+# Tuỳ chỉnh cơ chế bóp méo dữ liệu
 class BatchGenerator(Sequence):
     def __init__(self, images,
                  config,

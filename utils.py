@@ -1,11 +1,12 @@
+# Chứa các hàm hướng dẫn Yolo mô tả dữ liệu
+import cv2
+import numpy as np
 import os
 import random
 import re
 
-import cv2
-import numpy as np
 
-
+# Mô tả 1 box bao quanh ổ gà
 class BoundBox:
     def __init__(self, xmin, ymin, xmax, ymax, c=None, classes=None):
         self.xmin = xmin
@@ -32,6 +33,7 @@ class BoundBox:
         return self.score
 
 
+# Mô tả cách đọc file h5 chứa dữ liệu
 class WeightReader:
     def __init__(self, weight_file):
         self.offset = 4
@@ -45,6 +47,7 @@ class WeightReader:
         self.offset = 4
 
 
+# So sánh độ khác nhau giữa 2 box
 def bbox_iou(box1, box2):
     intersect_w = _interval_overlap([box1.xmin, box1.xmax], [box2.xmin, box2.xmax])
     intersect_h = _interval_overlap([box1.ymin, box1.ymax], [box2.ymin, box2.ymax])
@@ -59,6 +62,7 @@ def bbox_iou(box1, box2):
     return float(intersect) / union
 
 
+# Vẽ ô vuông
 def draw_boxes(image, boxes, labels):
     image_h, image_w, _ = image.shape
 
@@ -228,5 +232,6 @@ def _softmax(x, axis=-1, t=-100.):
     return e_x / e_x.sum(axis, keepdims=True)
 
 
+# Liệt kê các ảnh trong thư mục
 def image_files_in_folder(folder):
     return [os.path.join(folder, f) for f in os.listdir(folder) if re.match(r'.*\.(jpg|jpeg|png)', f, flags=re.I)]

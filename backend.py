@@ -1,3 +1,4 @@
+# Chứa các hàm hướng dẫn Yolo đọc dữ liệu và triển khai thuật toán
 import tensorflow as tf
 from keras.applications import InceptionV3
 from keras.applications.mobilenet import MobileNet
@@ -8,9 +9,11 @@ from keras.layers.advanced_activations import LeakyReLU
 from keras.layers.merge import concatenate
 from keras.models import Model
 
+# Đường dẫn tới file dữ liệu
 BACKEND_PATH = "data/base_classifier.h5"
 
 
+# Các chức năng cơ sở mà Yolo cần
 class BaseFeatureExtractor(object):
     """docstring for ClassName"""
 
@@ -29,6 +32,7 @@ class BaseFeatureExtractor(object):
         return self.feature_extractor(input_image)
 
 
+# Yolo sử dụng thuật toán Full Yolo
 class FullYoloFeature(BaseFeatureExtractor):
     """docstring for ClassName"""
 
@@ -167,6 +171,7 @@ class FullYoloFeature(BaseFeatureExtractor):
         return image / 255.
 
 
+# Yolo sử dụng thuật toán Tiny Yolo
 class TinyYoloFeature(BaseFeatureExtractor):
     """docstring for ClassName"""
 
@@ -205,6 +210,7 @@ class TinyYoloFeature(BaseFeatureExtractor):
         return image / 255.
 
 
+# Yolo sử dụng thuật toán Mobile Net
 class MobileNetFeature(BaseFeatureExtractor):
     """docstring for ClassName"""
 
@@ -226,6 +232,7 @@ class MobileNetFeature(BaseFeatureExtractor):
         return image
 
 
+# Yolo sử dụng thuật toán Squeeze Net
 class SqueezeNetFeature(BaseFeatureExtractor):
     """docstring for ClassName"""
 
@@ -286,6 +293,7 @@ class SqueezeNetFeature(BaseFeatureExtractor):
         return image
 
 
+# Yolo sử dụng thuật toán Inception 3
 class Inception3Feature(BaseFeatureExtractor):
     """docstring for ClassName"""
 
@@ -307,6 +315,7 @@ class Inception3Feature(BaseFeatureExtractor):
         return image
 
 
+# Yolo sử dụng thuật toán VGG 16
 class VGG16Feature(BaseFeatureExtractor):
     """docstring for ClassName"""
 
@@ -327,6 +336,7 @@ class VGG16Feature(BaseFeatureExtractor):
         return image
 
 
+# Yolo sử dụng thuật toán ResNet 50
 class ResNet50Feature(BaseFeatureExtractor):
     """docstring for ClassName"""
 

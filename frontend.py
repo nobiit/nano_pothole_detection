@@ -1,17 +1,19 @@
-import os
-
+# Chứa các hàm hướng dẫn Yolo triển khai dữ liệu
 import cv2
 import numpy as np
+import os
 import tensorflow as tf
-from backend import TinyYoloFeature, FullYoloFeature, MobileNetFeature, SqueezeNetFeature, Inception3Feature, VGG16Feature, ResNet50Feature
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard
 from keras.layers import Reshape, Conv2D, Input, Lambda
 from keras.models import Model
 from keras.optimizers import Adam
+
+from backend import TinyYoloFeature, FullYoloFeature, MobileNetFeature, SqueezeNetFeature, Inception3Feature, VGG16Feature, ResNet50Feature
 from preprocessing import BatchGenerator
 from utils import decode_netout, compute_overlap, compute_ap
 
 
+# Yolo
 class YOLO(object):
     def __init__(self, backend,
                  input_size,
@@ -82,6 +84,7 @@ class YOLO(object):
         # print a summary of the whole model
         self.model.summary()
 
+    # Tính độ lệch cho dữ liệu
     def custom_loss(self, y_true, y_pred):
         mask_shape = tf.shape(y_true)[:4]
 
@@ -238,9 +241,11 @@ class YOLO(object):
 
         return loss
 
+    # Đọc dữ liệu mô tả model
     def load_weights(self, weight_path):
         self.model.load_weights(weight_path)
 
+    # Đào tạo model
     def train(self, train_imgs,  # the list of images to train the model
               valid_imgs,  # the list of images used to validate the model
               train_times,  # the number of time to repeat the training set, often used for small datasets
@@ -344,6 +349,7 @@ class YOLO(object):
             print(self.labels[label], '{:.4f}'.format(average_precision))
         print('mAP: {:.4f}'.format(sum(average_precisions.values()) / len(average_precisions)))
 
+    # Phân tích độ lệch
     def evaluate(self,
                  generator,
                  iou_threshold=0.3,
@@ -457,6 +463,7 @@ class YOLO(object):
 
         return average_precisions
 
+    # Phân tích ảnh
     def predict(self, image):
         image_h, image_w, _ = image.shape
         image = cv2.resize(image, (self.input_size, self.input_size))
